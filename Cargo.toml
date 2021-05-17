@@ -1,0 +1,15 @@
+[package]
+name = "tket-rs"
+version = "0.1.0"
+authors = ["John Children <john.children@cambridgequantum.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+autocxx = "0.8"
+cxx = "1.0.49"
+
+[build-dependencies]
+conan = "0.2"
+autocxx-build = "0.8"
