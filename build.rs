@@ -33,27 +33,19 @@ fn main() {
         .generate()
         .expect("failed to generate conan build info");
 
-    let mut cxx_includes = Vec::new();
-
-    let conan_includes = build_info
+    let mut cxx_includes: Vec<_> = build_info
         .dependencies()
         .iter()
-        .filter_map(|dep| dep.get_include_dir().map(|dir| PathBuf::from(dir)));
-
-    for conan_include in conan_includes {
-        let mut conan_include = conan_include.clone();
-        // Patch the include path for eigen
-        if conan_include.iter().position(|x| x == "eigen").is_some() {
-            conan_include.push("eigen3");
-        }
-        println!("{:?}", conan_include);
-        cxx_includes.push(conan_include);
-    }
+        .filter_map(|dep| dep.get_include_dir().map(|dir| PathBuf::from(dir)))
+        .collect();
 
     // Allow extra custom C++
     cxx_includes.push(PathBuf::from("src/"));
 
-    let mut build = autocxx_build::build("src/lib.rs", cxx_includes, &["-std=c++17"]).unwrap();
+    let mut build = autocxx_build::Builder::new("src/lib.rs", &cxx_includes)
+        .extra_clang_args(&["-std=c++17", "-DSPDLOG_FMT_EXTERNAL=ON"])
+        .build()
+        .unwrap();
     build
         .define("SPDLOG_FMT_EXTERNAL", "ON")
         .define("BOOST_ALLOW_DEPRECATED_HEADERS", "ON")

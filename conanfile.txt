@@ -1,2 +1,2 @@
 [build_requires]
-tket/1.0.1
+tket/1.0.3

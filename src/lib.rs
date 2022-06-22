@@ -1,11 +1,31 @@
 use autocxx::include_cpp;
 
 include_cpp! {
+    //#include "Architecture/Architectures.hpp"
+    #include "Circuit/Command.hpp"
+    #include "Ops/Op.hpp"
+    //#include "Ops/MetaOp.hpp"
     #include "Utils/UnitID.hpp"
-    #include "Graphs/AdjacencyData.hpp"
+    #include "Utils/TketLog.hpp"
+
     safety!(unsafe)
+
     generate_pod!("tket::UnitType")
-    generate!("tket::graphs::AdjacencyData")
+    generate!("tket::InvalidUnitConversion")
+    generate!("tket::UnitID")
+    generate!("tket::Qubit")
+    generate!("tket::Bit")
+    generate!("tket::Node")
+
+    generate!("tket::LogPtr_t")
+
+    //generate!("tket::Architecture")
+    //generate!("tket::FullyConnected")
+    //generate!("tket::RingArch")
+
+    generate_pod!("tket::OpType")
+    generate_pod!("tket::EdgeType")
+    //generate!("tket::MetaOp")
 }
 
 #[cfg(test)]
@@ -14,7 +34,10 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let unit_type = ffi::tket::UnitType::Qubit;
-        let data = ffi::tket::graphs::AdjacencyData;
+        //let fc = ffi::tket::FullConnected;
+        let reg = autocxx::c_uint(1);
+        let qubit = ffi::tket::Qubit::new1(reg);
+        // https://github.com/google/autocxx/issues/197
+        //qubit.pin_mut().repr();
     }
 }
