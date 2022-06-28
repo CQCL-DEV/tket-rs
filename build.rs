@@ -13,15 +13,6 @@ fn main() {
         .spawn()
         .expect("failed to create new profile");
 
-    let recipes = read_dir("./tket/recipes/").expect("recipes directory not found");
-    for recipe in recipes {
-        Command::new("conan")
-            .arg("export")
-            .arg(recipe.unwrap().path())
-            .spawn()
-            .expect("failed to export recipes");
-    }
-
     let command = InstallCommandBuilder::new()
         .with_profile(&conan_profile)
         .build_policy(BuildPolicy::Missing)
