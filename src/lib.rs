@@ -1,7 +1,7 @@
 use autocxx::include_cpp;
 
 include_cpp! {
-    //#include "Architecture/Architectures.hpp"
+    //#include "Circuit/Circuit.hpp"
     #include "Circuit/Command.hpp"
     #include "Ops/Op.hpp"
     //#include "Ops/MetaOp.hpp"
@@ -22,6 +22,8 @@ include_cpp! {
     //generate!("tket::Architecture")
     //generate!("tket::FullyConnected")
     //generate!("tket::RingArch")
+
+    //generate!("tket::Circuit")
 
     generate_pod!("tket::OpType")
     generate_pod!("tket::EdgeType")
