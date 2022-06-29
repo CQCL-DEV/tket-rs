@@ -1,12 +1,14 @@
 use autocxx::include_cpp;
 
+// pub mod tkbind {
 include_cpp! {
     //#include "Circuit/Circuit.hpp"
     #include "Circuit/Command.hpp"
+    #include "Circuit/Boxes.hpp"
     #include "Ops/Op.hpp"
     //#include "Ops/MetaOp.hpp"
     #include "Utils/UnitID.hpp"
-    #include "Utils/TketLog.hpp"
+    // #include "tklog/TketLog.hpp"
 
     safety!(unsafe)
 
@@ -17,7 +19,7 @@ include_cpp! {
     generate!("tket::Bit")
     generate!("tket::Node")
 
-    generate!("tket::LogPtr_t")
+    // generate!("tket::LogPtr_t")
 
     //generate!("tket::Architecture")
     //generate!("tket::FullyConnected")
@@ -27,8 +29,12 @@ include_cpp! {
 
     generate_pod!("tket::OpType")
     generate_pod!("tket::EdgeType")
+    // generate!("tket::PauliExpBox")
     //generate!("tket::MetaOp")
 }
+
+// pub ffi::Qubit;
+pub use ffi::*;
 
 #[cfg(test)]
 mod tests {

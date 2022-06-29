@@ -1,7 +1,7 @@
 use conan::*;
 
 use std::path::{Path, PathBuf};
-use std::{env, fs::read_dir, process::Command};
+use std::{env, process::Command};
 
 fn main() {
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();

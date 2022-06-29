@@ -7,9 +7,10 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-autocxx = { version = "0.22.1" }
+autocxx = { version = "0.22.3" }
 cxx = "1.0.68"
 
 [build-dependencies]
 conan = "0.2"
-autocxx-build = { version = "0.22.1" }
+autocxx-build = { version = "0.22.3" }
+miette = { version="4.3", features=["fancy"] }

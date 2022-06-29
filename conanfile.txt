@@ -1,2 +1,5 @@
 [build_requires]
 tket/1.0.1
+
+[options]
+tket:shared=True
