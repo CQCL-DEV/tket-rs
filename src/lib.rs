@@ -1,5 +1,4 @@
 use autocxx::include_cpp;
-
 // pub mod tkbind {
 include_cpp! {
     //#include "Circuit/Circuit.hpp"
@@ -8,6 +7,7 @@ include_cpp! {
     #include "Ops/Op.hpp"
     //#include "Ops/MetaOp.hpp"
     #include "Utils/UnitID.hpp"
+    #include "unitary.hpp"
     // #include "tklog/TketLog.hpp"
 
     safety!(unsafe)
@@ -29,12 +29,26 @@ include_cpp! {
 
     generate_pod!("tket::OpType")
     generate_pod!("tket::EdgeType")
-    // generate!("tket::PauliExpBox")
+    // generate!("Unitary1qBoxWrap")
+    // generate!("make_box")
+    // generate!("tket::Unitary1qBox")
     //generate!("tket::MetaOp")
+    extern_cpp_opaque_type!("Unitary1qBoxWrap", ffi2::Unitary1qBoxWrap)
 }
 
 // pub ffi::Qubit;
 pub use ffi::*;
+
+#[cxx::bridge]
+mod ffi2 {
+    unsafe extern "C++" {
+        include!("unitary.hpp");
+
+        type Unitary1qBoxWrap;
+
+        fn make_box(m: [[[f64; 2]; 2]; 2]) -> UniquePtr<Unitary1qBoxWrap>;
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -43,9 +57,14 @@ mod tests {
     #[test]
     fn it_works() {
         //let fc = ffi::tket::FullConnected;
-        let reg = autocxx::c_uint(1);
-        let qubit = ffi::tket::Qubit::new1(reg);
+
+        // let reg = autocxx::c_uint(1);
+        // let qubit = ffi::tket::Qubit::new1(reg);
+
         // https://github.com/google/autocxx/issues/197
         //qubit.pin_mut().repr();
+
+
+        let box2 = ffi2::make_box([[[1.2, 1.3], [1.2, 1.4]], [[1.2, 1.3], [1.2, 1.4]]]);
     }
 }
