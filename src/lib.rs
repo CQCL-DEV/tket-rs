@@ -47,6 +47,7 @@ mod ffi2 {
         type Unitary1qBoxWrap;
 
         fn make_box(m: [[[f64; 2]; 2]; 2]) -> UniquePtr<Unitary1qBoxWrap>;
+        fn circ_json(self: &Unitary1qBoxWrap) -> String;
     }
 }
 
@@ -64,7 +65,7 @@ mod tests {
         // https://github.com/google/autocxx/issues/197
         //qubit.pin_mut().repr();
 
-
-        let box2 = ffi2::make_box([[[1.2, 1.3], [1.2, 1.4]], [[1.2, 1.3], [1.2, 1.4]]]);
+        let box2 = ffi2::make_box([[[0.0, 0.0], [1., 0.]], [[1., 0.], [0., 0.]]]);
+        println!("{}", box2.circ_json());
     }
 }

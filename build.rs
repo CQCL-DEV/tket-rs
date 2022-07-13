@@ -29,6 +29,24 @@ fn main() {
         .iter()
         .filter_map(|dep| dep.get_include_dir().map(|dir| PathBuf::from(dir)))
         .collect();
+    let mut loader_s = String::new();
+    for c in build_info
+        .dependencies()
+        .iter()
+        .filter_map(|dep| dep.get_library_dir().map(|dir| PathBuf::from(dir)))
+    {
+        println!("cargo:rustc-link-search={}", c.display());
+        loader_s.push_str(&format!(":{}", c.display())[..]);
+    }
+
+    // modifiyng LD library path is bad actually
+    // either put the libraries in target/ (in which case they will be added to
+    // the loader path automatically)
+    // or build tket statically and link that (preferred)
+    println!(
+        "cargo:rustc-env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}",
+        loader_s
+    );
 
     // Allow extra custom C++
     cxx_includes.push(PathBuf::from("src/"));
@@ -45,5 +63,11 @@ fn main() {
         .opt_level(1)
         .compile("tket-rs");
 
-    println!("cargo:rerun-if-changed=src/lib.rs");
+    println!("cargo:rerun-if-changed=src/");
+    println!("cargo:rustc-link-lib=tket-Circuit");
+    println!("cargo:rustc-link-lib=tket-Ops");
+    println!("cargo:rustc-link-lib=tket-OpType");
+    println!("cargo:rustc-link-lib=tket-Gate");
+    println!("cargo:rustc-link-lib=tket-Utils");
+    println!("cargo:rustc-link-lib=tklog");
 }
