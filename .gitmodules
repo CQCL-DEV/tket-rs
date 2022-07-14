@@ -1,3 +1,0 @@
-[submodule "tket"]
-	path = tket
-	url = git@github.com:CQCL-DEV/tket.git
