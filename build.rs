@@ -1,25 +1,20 @@
 use conan::*;
 
 use std::path::{Path, PathBuf};
-use std::{env, fs::read_dir, process::Command};
+use std::{env, process::Command};
 
 fn main() {
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     let conan_profile = format!("tket-rs-{}-{}", target_os, target_arch);
 
-    Command::new("conan")
-        .args(&["profile", "new", &conan_profile, "--detect"])
-        .spawn()
-        .expect("failed to create new profile");
-
     let command = InstallCommandBuilder::new()
         .with_profile(&conan_profile)
-        .build_policy(BuildPolicy::Missing)
+        .build_policy(BuildPolicy::Never)
         .recipe_path(Path::new("conanfile.txt"))
         .build();
 
-    assert!(command.generate().is_some());
+    // assert!(command.generate().is_some());
     let build_info = command
         .generate()
         .expect("failed to generate conan build info");
@@ -29,6 +24,14 @@ fn main() {
         .iter()
         .filter_map(|dep| dep.get_include_dir().map(|dir| PathBuf::from(dir)))
         .collect();
+    for c in build_info
+        .dependencies()
+        .iter()
+        .filter_map(|dep| dep.get_library_dir().map(|dir| PathBuf::from(dir)))
+    {
+        println!("cargo:rustc-link-search={}", c.display());
+        // loader_s.push_str(&format!(":{}", c.display())[..]);
+    }
 
     // Allow extra custom C++
     cxx_includes.push(PathBuf::from("src/"));
@@ -40,9 +43,19 @@ fn main() {
     build
         .define("SPDLOG_FMT_EXTERNAL", "ON")
         .define("BOOST_ALLOW_DEPRECATED_HEADERS", "ON")
+        .file("src/unitary.cpp")
         .flag("-std=c++17")
         .opt_level(1)
         .compile("tket-rs");
 
-    println!("cargo:rerun-if-changed=src/lib.rs");
+    println!("cargo:rerun-if-changed=src/");
+    println!("cargo:rustc-link-lib=static=tket-Circuit");
+    println!("cargo:rustc-link-lib=static=tket-Ops");
+    println!("cargo:rustc-link-lib=static=tket-OpType");
+    println!("cargo:rustc-link-lib=static=tket-Gate");
+    println!("cargo:rustc-link-lib=static=tket-Utils");
+    println!("cargo:rustc-link-lib=static=tklog");
+    println!("cargo:rustc-link-lib=static=tkassert");
+    println!("cargo:rustc-link-lib=static=tkrng");
+    println!("cargo:rustc-link-lib=static=symengine");
 }

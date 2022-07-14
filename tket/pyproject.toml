@@ -1,7 +1,0 @@
-[tool.black]
-# ignore auto generated qasm include definitions
-exclude = '''
-/(
-    pytket/pytket/qasm/includes
-)/
-'''
