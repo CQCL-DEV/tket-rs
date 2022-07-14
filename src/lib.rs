@@ -51,6 +51,8 @@ mod ffi2 {
     }
 }
 
+pub use ffi2::*;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -66,6 +68,6 @@ mod tests {
         //qubit.pin_mut().repr();
 
         let box2 = ffi2::make_box([[[0.0, 0.0], [1., 0.]], [[1., 0.], [0., 0.]]]);
-        println!("{}", box2.circ_json());
+        assert!(box2.circ_json().len() > 1);
     }
 }
