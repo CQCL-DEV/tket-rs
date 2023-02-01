@@ -3,7 +3,7 @@
 ## Building
 
 The project uses conan to download and statically link the tket libraries, make sure you
-have added a conan remote with tket available (there may be instructions for
+have added a conan remote with tket available for your system (there may be instructions for
 this on the tket repository). For current tket releases, you will need gcc 11.
 
 And install conan with `pip install conan`. 
