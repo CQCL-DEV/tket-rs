@@ -58,4 +58,5 @@ fn main() {
     println!("cargo:rustc-link-lib=static=tkassert");
     println!("cargo:rustc-link-lib=static=tkrng");
     println!("cargo:rustc-link-lib=static=symengine");
+    println!("cargo:rustc-link-lib=static=gmp");
 }

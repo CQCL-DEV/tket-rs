@@ -1,5 +1,5 @@
 [build_requires]
-tket/1.0.1@tket/stable
+tket/1.0.51@tket/stable
 
 [options]
 tket:shared=False
