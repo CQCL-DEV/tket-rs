@@ -45,6 +45,7 @@ fn main() {
         .define("BOOST_ALLOW_DEPRECATED_HEADERS", "ON")
         .file("src/unitary.cpp")
         .flag("-std=c++17")
+        .flag("-w") // Ignore warnings from tket (and symengine)
         .opt_level(1)
         .compile("tket-rs");
 
