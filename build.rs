@@ -1,7 +1,7 @@
 use conan::*;
 
-use std::path::{Path, PathBuf};
 use std::env;
+use std::path::{Path, PathBuf};
 
 fn main() {
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
@@ -22,12 +22,12 @@ fn main() {
     let mut cxx_includes: Vec<_> = build_info
         .dependencies()
         .iter()
-        .filter_map(|dep| dep.get_include_dir().map(|dir| PathBuf::from(dir)))
+        .filter_map(|dep| dep.get_include_dir().map(PathBuf::from))
         .collect();
     for c in build_info
         .dependencies()
         .iter()
-        .filter_map(|dep| dep.get_library_dir().map(|dir| PathBuf::from(dir)))
+        .filter_map(|dep| dep.get_library_dir().map(PathBuf::from))
     {
         println!("cargo:rustc-link-search={}", c.display());
         // loader_s.push_str(&format!(":{}", c.display())[..]);
@@ -45,6 +45,7 @@ fn main() {
         .define("BOOST_ALLOW_DEPRECATED_HEADERS", "ON")
         .file("src/unitary.cpp")
         .flag("-std=c++17")
+        .flag("-w") // Ignore warnings from tket (and symengine)
         .opt_level(1)
         .compile("tket-rs");
 
