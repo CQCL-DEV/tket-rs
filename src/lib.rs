@@ -1,3 +1,7 @@
+// Ignore generated code
+#![allow(clippy::all)]
+#![allow(unknown_lints)]
+
 use autocxx::include_cpp;
 // pub mod tkbind {
 include_cpp! {

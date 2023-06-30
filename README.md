@@ -15,7 +15,7 @@ linking to work correctly). Make sure linking and loading is succesful with
 You will need a conan profile that matches the pattern
 `tket-rs-{os}-{platform}`, e.g. `tket-rs-linux-x86_64`. So a command like
 
-```
+```bash
 conan profile new tket-rs-linux-x86_64 --detect
 ```
 
@@ -24,7 +24,7 @@ should work.
 
 You might also need to run 
 
-```
+```bash
 conan profile update settings.compiler.libcxx=libstdc++11 tket-rs-linux-x86_64
 ```
 
@@ -33,8 +33,8 @@ Now go check that profile, crucially you need to make sure compiler version is
 11, compiler is gcc, and build_type is Release.
 
 
-Here is an example: 
-```
+Here is an example for a linux profile: 
+```toml
 [settings]
 os=Linux
 os_build=Linux
@@ -49,6 +49,10 @@ build_type=Release
 [env]
 ```
 
+Finally, make sure to add the remote with the tket pre-compiled binaries:
+```bash
+conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+```
 
 ## Troubleshooting
 
