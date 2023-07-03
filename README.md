@@ -7,7 +7,7 @@ have added a conan remote with tket available for your system (there may be inst
 this on the tket repository). For current tket releases, you will need gcc 11.
 For bindgen and autocxx you need Clang.
 
-And install conan with `pip install conan`. 
+And install conan with `pip install conan~=1.60`.
 After that `cargo build --release` should do the job (note release is needed for
 linking to work correctly). Make sure linking and loading is succesful with
 `cargo test --release`. 
