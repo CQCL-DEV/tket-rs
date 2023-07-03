@@ -64,3 +64,4 @@ Environment variables:
 * Bindgen may still fail to find c++ headers, so you may need to also set
   `BINDGEN_EXTRA_CLANG_ARGS="-I${LLVM_PATH}/lib/clang/12.0.1/include/
   -L${LIBCLANG_PATH}"` (or other system header paths on the include)
+* On Ubuntu this may do the trick: `BINDGEN_EXTRA_CLANG_ARGS="-I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11"`
