@@ -7,7 +7,7 @@ have added a conan remote with tket available for your system (there may be inst
 this on the tket repository). For current tket releases, you will need gcc 11.
 For bindgen and autocxx you need Clang.
 
-And install conan with `pip install conan`. 
+And install conan with `pip install conan~=1.60`.
 After that `cargo build --release` should do the job (note release is needed for
 linking to work correctly). Make sure linking and loading is succesful with
 `cargo test --release`. 
@@ -64,3 +64,4 @@ Environment variables:
 * Bindgen may still fail to find c++ headers, so you may need to also set
   `BINDGEN_EXTRA_CLANG_ARGS="-I${LLVM_PATH}/lib/clang/12.0.1/include/
   -L${LIBCLANG_PATH}"` (or other system header paths on the include)
+* On Ubuntu this may do the trick: `BINDGEN_EXTRA_CLANG_ARGS="-I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11"`
